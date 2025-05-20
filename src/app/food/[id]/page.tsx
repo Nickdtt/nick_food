@@ -4,9 +4,9 @@ import Image from "next/image";
 
 
 
-const foodDetail = ({params}: {params: {id:string}}) => {
+const foodDetail = ({params}: {params: {id:number}}) => {
 
-    const food = foodList.find((food) => food.id.toString() === params.id)
+    const food = foodList.find((food) => food.id === params.id)
 
     return (
         <div className="w-md flex flex-col justify-center items-center" >
