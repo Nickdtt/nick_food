@@ -19,7 +19,7 @@ export function FoodCardHero() {
 
             <div className="grid grid-cols-2 max-w-md gap-4" >
                 {foodList.map((food) => (
-                    <Link href={`/food/${food.id}`} key={food.id}>
+                    <Link href={`/food/${food.id.toString()}`} key={food.id}>
                         <FoodCard food={food} />
                     </Link>
                 ))}
