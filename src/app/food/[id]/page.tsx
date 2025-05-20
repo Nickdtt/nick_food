@@ -2,9 +2,9 @@ import { foodList } from "@/app/bd";
 import Image from "next/image";
 import { notFound } from "next/navigation"
 
+type Params = Promise<{ id: string }>
 
-
-const foodDetail = async ({params}: {params: {id:string}}) => {
+const foodDetail = async ({params}: {params: Params}) => {
 
     const {id} = await params
 
