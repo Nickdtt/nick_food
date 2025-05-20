@@ -4,9 +4,9 @@ import { notFound } from "next/navigation"
 
 
 
-const foodDetail = ({params}: {params: {id:string}}) => {
+const foodDetail = async ({params}: {params: {id:string}}) => {
 
-    const {id} = params
+    const {id} = await params
 
     const food = foodList.find((food) => food.id.toString() === id)
 
