@@ -3,16 +3,12 @@ import Image from "next/image";
 import { notFound } from "next/navigation"
 
 
-type FoodPageProps = {
-    params: {
-        id: string
-    }
-}
 
+const foodDetail = ({params}: {params: {id:string}}) => {
 
-const foodDetail = ({params}: FoodPageProps) => {
+    const {id} = params
 
-    const food = foodList.find((food) => food.id.toString() === params.id)
+    const food = foodList.find((food) => food.id.toString() === id)
 
     if (!food) {
         notFound()
