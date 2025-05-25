@@ -2,7 +2,6 @@ import { FoodCard } from "./foodcard"
 import { foodList } from "../bd"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
-import Link from "next/link"
 
 
 export function FoodCardHero() {
@@ -19,9 +18,9 @@ export function FoodCardHero() {
 
             <div className="grid grid-cols-2 max-w-md gap-4" >
                 {foodList.map((food) => (
-                    <Link href={`/food/${food.id.toString()}`} key={food.id}>
-                        <FoodCard food={food} />
-                    </Link>
+
+                    <FoodCard key={food.id} food={food} />
+
                 ))}
             </div>
         </div>
