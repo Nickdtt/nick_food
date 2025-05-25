@@ -8,7 +8,7 @@ import Link from "next/link"
 export function FoodCardHero() {
     return (
 
-        <div className="w-md pb-24 px-4 flex flex-col justify-center" >
+        <div className="w-md pb-24 px-8 flex flex-col justify-center" >
 
             <div className="p-5 mb-5 flex gap-3" >
                 <div className="relative flex-1" >

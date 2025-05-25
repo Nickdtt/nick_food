@@ -2,7 +2,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 export function NavTop() {
     return (
-        <div className="flex justify-between min-w-md p-4 items-center" >
+        <div className="flex justify-between min-w-md py-4 px-8 items-center" >
             <div>
                 <h1 className="text-3xl font-bold font-serif" >NickFood</h1>
                 <p className="text-sm text-muted-foreground" >Peça sua comida favorita!</p>
