@@ -12,7 +12,7 @@ export function FoodDetailClient({ food }: { food: Food }) {
   const addItem = useCartStore((state) => state.addItem);
 
   const handleAddToCart = () => {
-    addItem({ ...food, quantity });
+    addItem(food, quantity);
     toast.success(`${food.name} foi adicionado ao carrinho!`);
   };
 

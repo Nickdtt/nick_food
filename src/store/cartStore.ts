@@ -9,7 +9,7 @@ export type CartItem = Food & {
 
 type CartState = {
     items: CartItem[];
-    addItem: (food: Food) => void;
+    addItem: (food: Food, quantity: number) => void;
     removeItem: (foodId: number) => void;
     clearCart: () => void;
     totalItems: () => number;
@@ -19,20 +19,21 @@ type CartState = {
 
 export const useCartStore = create<CartState>((set, get) => ({
     items: [],
-    addItem: (food) => {
+    addItem: (food, quantity) => {
         const items = get().items;
-        const existingItem = items.find((item) => item.id == food.id);
+        const existingItem = items.find((item) => item.id === food.id);
 
         if (existingItem) {
             set({
                 items: items.map((item) =>
-                    item.id == food.id ? { ...item, quantity: item.quantity + 1 }
+                    item.id === food.id
+                        ? { ...item, quantity: item.quantity + quantity }
                         : item
-                )
+                ),
             });
         } else {
             set({
-                items: [...items, { ...food, quantity: 1 }]
+                items: [...items, { ...food, quantity: quantity }],
             });
         }
     },
