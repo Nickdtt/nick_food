@@ -2,8 +2,6 @@
 
 # 🍔 NickFood - App de Delivery de Comida
 
-![NickFood Screenshot](./public/PAGINA%20PRODUTO.png)
-
 Bem-vindo ao NickFood, um moderno app de delivery de comida construído com as tecnologias mais recentes da web. Este projeto demonstra uma interface de usuário limpa e responsiva para navegar por itens de comida, adicioná-los a um carrinho de compras e gerenciar o carrinho.
 
 ---
