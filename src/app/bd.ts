@@ -1,11 +1,12 @@
+import { Food } from "./types";
 
 
-
-export const foodList = [
+export const foodList:Food[] = [
   {
     id: 1,
     name: "Hamburguer",
     description: "Delicioso hamburguer com queijo e bacon",
+    price: 25.50,
     imageUrl: "/Hamburger.png",
     rating: 4.5,
     favorite: false,
@@ -15,6 +16,7 @@ export const foodList = [
     id: 2,
     name: "Hamburger vegano",
     description: "Delicioso hamburguer vegano com queijo e bacon",
+    price: 28.00,
     imageUrl: "/hamburger2.png",
     rating: 4.8,
     favorite: false,
@@ -24,6 +26,7 @@ export const foodList = [
     id: 3,
     name: "Hamburger com cheddar",
     description: "Delicioso hamburguer com cheddar",
+    price: 26.00,
     imageUrl: "/hamburger3.png",
     rating: 4.9,
     favorite: false,
@@ -33,6 +36,7 @@ export const foodList = [
     id: 4,
     name: "Hamburger de frango",
     description: "Delicioso hamburguer de frango",
+    price: 24.00,
     imageUrl: "/hamburger4.png",
     rating: 4.2,
     favorite: false,
