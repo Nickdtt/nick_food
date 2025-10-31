@@ -40,15 +40,15 @@ export default function CartPage() {
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
-                <Button onClick={() => decreaseQuantity(Number(item.id))} size="icon" variant="ghost">
+                <Button onClick={() => decreaseQuantity(item.id)} size="icon" variant="ghost">
                   <Minus className="h-4 w-4" />
                 </Button>
                 <span className="font-bold">{item.quantity}</span>
-                <Button onClick={() => increaseQuantity(Number(item.id))} size="icon" variant="ghost">
+                <Button onClick={() => increaseQuantity(item.id)} size="icon" variant="ghost">
                   <Plus className="h-4 w-4" />
                 </Button>
               </div>
-              <Button onClick={() => removeItem(Number(item.id))} size="icon" variant="destructive">
+              <Button onClick={() => removeItem(item.id)} size="icon" variant="destructive">
                 <Trash2 className="h-4 w-4" />
               </Button>
             </div>

@@ -6,10 +6,10 @@ const prisma = new PrismaClient();
 
 export async function GET(
   request: Request,
-  context: { params: { id: string } } // Receber o contexto inteiro
+  { params }: { params: { id: string } } // Voltar à desestruturação direta
 ) {
   try {
-    const productId = context.params.id; // Acessar o id através do contexto
+    const productId = params.id; // Acessar o id diretamente
 
     const product = await prisma.product.findUnique({
       where: {
@@ -32,10 +32,10 @@ export async function GET(
 // 2. Corrigir também a assinatura da função DELETE para consistência
 export async function DELETE(
   request: Request,
-  context: { params: { id:string } } // Receber o contexto inteiro
+  { params }: { params: { id: string } } // Voltar à desestruturação direta
 ) {
   try {
-    const productId = context.params.id; // Acessar o id através do contexto
+    const productId = params.id; // Acessar o id diretamente
 
     if (!productId) {
       return NextResponse.json({ error: 'Product ID is required' }, { status: 400 });

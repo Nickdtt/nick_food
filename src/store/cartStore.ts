@@ -10,11 +10,11 @@ export type CartItem = Food & {
 type CartState = {
     items: CartItem[];
     addItem: (food: Food, quantity: number) => void;
-    removeItem: (foodId: number) => void;
+    removeItem: (foodId: string) => void;
     clearCart: () => void;
     totalItems: () => number;
-    increaseQuantity: (foodId: number) => void;
-    decreaseQuantity: (foodId: number) => void;
+    increaseQuantity: (foodId: string) => void;
+    decreaseQuantity: (foodId: string) => void;
 };
 
 export const useCartStore = create<CartState>((set, get) => ({
