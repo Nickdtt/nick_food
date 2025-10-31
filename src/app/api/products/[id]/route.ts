@@ -1,17 +1,15 @@
+import { PrismaClient, Prisma } from '@prisma/client';
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+
 
 const prisma = new PrismaClient();
 
-export async function GET(request: Request) { // Removido o segundo argumento
+export async function GET(
+  request: Request,
+  context: { params: { id: string } } // Receber o contexto inteiro
+) {
   try {
-    // Abordagem alternativa: pegar o ID da URL
-    const url = new URL(request.url);
-    const productId = url.pathname.split('/').pop(); 
-
-    if (!productId) {
-      return NextResponse.json({ error: 'Product ID not found in URL' }, { status: 400 });
-    }
+    const productId = context.params.id; // Acessar o id através do contexto
 
     const product = await prisma.product.findUnique({
       where: {
@@ -31,11 +29,13 @@ export async function GET(request: Request) { // Removido o segundo argumento
   }
 }
 
-export async function DELETE(request: Request) { // Removido o segundo argumento
+// 2. Corrigir também a assinatura da função DELETE para consistência
+export async function DELETE(
+  request: Request,
+  context: { params: { id:string } } // Receber o contexto inteiro
+) {
   try {
-    // Abordagem alternativa: pegar o ID da URL
-    const url = new URL(request.url);
-    const productId = url.pathname.split('/').pop();
+    const productId = context.params.id; // Acessar o id através do contexto
 
     if (!productId) {
       return NextResponse.json({ error: 'Product ID is required' }, { status: 400 });
@@ -51,7 +51,7 @@ export async function DELETE(request: Request) { // Removido o segundo argumento
 
   } catch (error) {
     console.error("Request error", error);
-    if (error instanceof prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
     return NextResponse.json({ error: 'Error deleting product' }, { status: 500 });
