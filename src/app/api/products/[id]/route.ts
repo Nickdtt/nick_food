@@ -1,15 +1,19 @@
+import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient, Prisma } from '@prisma/client';
-import { NextResponse } from 'next/server';
-
 
 const prisma = new PrismaClient();
 
+// Definir o tipo de Params como uma Promise
+type RouteParams = {
+  params: Promise<{ id: string }>;
+};
+
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } } // Voltar à desestruturação direta
+  request: NextRequest,
+  { params }: RouteParams // Usar o tipo Promise
 ) {
   try {
-    const productId = params.id; // Acessar o id diretamente
+    const { id: productId } = await params; // 1. Await params
 
     const product = await prisma.product.findUnique({
       where: {
@@ -29,13 +33,12 @@ export async function GET(
   }
 }
 
-// 2. Corrigir também a assinatura da função DELETE para consistência
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } } // Voltar à desestruturação direta
+  request: NextRequest,
+  { params }: RouteParams // Usar o tipo Promise
 ) {
   try {
-    const productId = params.id; // Acessar o id diretamente
+    const { id: productId } = await params; // 2. Await params
 
     if (!productId) {
       return NextResponse.json({ error: 'Product ID is required' }, { status: 400 });
