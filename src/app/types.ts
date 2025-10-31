@@ -1,6 +1,6 @@
 export interface Food {
    
-    id: number;
+    id: string; // Alterado de number para string
     name: string;
     description: string;
     price: number;

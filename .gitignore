@@ -42,3 +42,7 @@ next-env.d.ts
 
 # Gemini CLI file
 gemini.md
+/src/generated/prisma
+
+# Environment variables
+.env
