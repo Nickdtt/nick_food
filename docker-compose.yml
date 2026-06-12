@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "file:./data/dev.db"
+      AUTH_SECRET: "${AUTH_SECRET:-troque-por-uma-chave-secreta-segura-em-producao}"
+    volumes:
+      - app-data:/app/data
+    working_dir: /app
+
+volumes:
+  app-data:

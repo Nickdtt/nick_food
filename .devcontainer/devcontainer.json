@@ -1,0 +1,29 @@
+{
+  "name": "Nick Food",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "postCreateCommand": "npm install && npx prisma generate",
+  "postStartCommand": "npx prisma migrate deploy && npx prisma db seed",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Next.js",
+      "onAutoForward": "notify"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "bradlc.vscode-tailwindcss",
+        "prisma.prisma"
+      ]
+    }
+  },
+  "remoteEnv": {
+    "DATABASE_URL": "file:./prisma/dev.db",
+    "AUTH_SECRET": "dev-secret-troque-em-producao"
+  }
+}

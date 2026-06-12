@@ -1,5 +1,11 @@
 import type { NextConfig } from "next";
 
+// Node.js 22+ exposes a non-functional `localStorage` on globalThis that
+// breaks SSR code checking `typeof localStorage !== 'undefined'`.
+if (typeof window === 'undefined' && typeof globalThis.localStorage !== 'undefined') {
+  delete (globalThis as any).localStorage;
+}
+
 const nextConfig: NextConfig = {
   output: 'standalone', // Adicionar esta linha
   images: {

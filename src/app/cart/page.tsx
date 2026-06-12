@@ -61,9 +61,11 @@ export default function CartPage() {
         </div>
       </div>
       <div className="mt-8 flex justify-end">
-        <Button size="lg" className="bg-green-500 text-white hover:bg-green-600">
-          Finalizar Compra
-        </Button>
+        <Link href="/checkout">
+          <Button size="lg" className="bg-green-500 text-white hover:bg-green-600">
+            Finalizar Compra
+          </Button>
+        </Link>
       </div>
     </div>
   );

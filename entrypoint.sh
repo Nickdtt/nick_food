@@ -1,7 +1,11 @@
 #!/bin/sh
+set -e
 
-# Este script é simplificado para o modo "demo" sem persistência de alterações.
-# Ele apenas inicia a aplicação. O dev.db já estará na imagem.
+echo "Running database migrations..."
+npx prisma migrate deploy
+
+echo "Seeding database (admin user)..."
+npx prisma db seed
 
 echo "Starting Next.js application..."
 exec npm run start

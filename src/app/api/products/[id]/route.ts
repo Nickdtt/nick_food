@@ -33,6 +33,30 @@ export async function GET(
   }
 }
 
+export async function PUT(
+  request: NextRequest,
+  { params }: RouteParams
+) {
+  try {
+    const { id: productId } = await params;
+    const body = await request.json();
+    const { name, description, price, imageUrl, bigDescription } = body;
+
+    const updated = await prisma.product.update({
+      where: { id: productId },
+      data: { name, description, price, imageUrl, bigDescription },
+    });
+
+    return NextResponse.json(updated);
+  } catch (error) {
+    console.error("Request error", error);
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+      return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+    }
+    return NextResponse.json({ error: 'Error updating product' }, { status: 500 });
+  }
+}
+
 export async function DELETE(
   request: NextRequest,
   { params }: RouteParams // Usar o tipo Promise

@@ -30,7 +30,16 @@ const createProduct = async (newProduct: ProductFormData): Promise<Food> => {
   return response.json();
 };
 
-// 2. Adicionar a função para DELETAR
+const updateProduct = async ({ id, data }: { id: string; data: ProductFormData }): Promise<Food> => {
+  const response = await fetch(`/api/products/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) throw new Error('Falha ao atualizar produto');
+  return response.json();
+};
+
 const deleteProduct = async (productId: string): Promise<void> => {
   const response = await fetch(`/api/products/${productId}`, { method: 'DELETE' });
   if (!response.ok) throw new Error('Falha ao excluir produto');
@@ -58,7 +67,19 @@ export default function ProductsPage() {
     }
   });
 
-  // 3. Adicionar a DELETE MUTATION
+  const updateProductMutation = useMutation({
+    mutationFn: updateProduct,
+    onSuccess: () => {
+      toast.success("Produto atualizado com sucesso!");
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+      setModalOpen(false);
+      setSelectedProduct(null);
+    },
+    onError: (error) => {
+      toast.error(`Falha ao atualizar produto: ${error.message}`);
+    }
+  });
+
   const deleteProductMutation = useMutation({
     mutationFn: deleteProduct,
     onSuccess: () => {
@@ -81,8 +102,17 @@ export default function ProductsPage() {
     setModalOpen(true);
   };
 
+  const handleEditClick = (product: Food) => {
+    setSelectedProduct(product);
+    setModalOpen(true);
+  };
+
   const handleFormSubmit = (data: ProductFormData) => {
-    createProductMutation.mutate(data);
+    if (selectedProduct) {
+      updateProductMutation.mutate({ id: selectedProduct.id, data });
+    } else {
+      createProductMutation.mutate(data);
+    }
   };
 
   return (
@@ -137,7 +167,7 @@ export default function ProductsPage() {
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <ActionMenu
                       onDelete={() => handleDelete(product.id)}
-                      onEdit={() => { /* Lógica de editar virá aqui */ }}
+                      onEdit={() => handleEditClick(product)}
                     />
                   </td>
                 </tr>
@@ -152,7 +182,7 @@ export default function ProductsPage() {
         onClose={() => setModalOpen(false)}
         product={selectedProduct}
         onSubmit={handleFormSubmit}
-        isSaving={createProductMutation.isPending}
+        isSaving={createProductMutation.isPending || updateProductMutation.isPending}
       />
     </div>
   );

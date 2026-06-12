@@ -4,89 +4,102 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/cartStore";
 import { Food } from "@/app/types";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Star } from "lucide-react";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-// 1. Definir a função fetchProducts (ou importá-la de um local compartilhado)
-const fetchProducts = async (): Promise<Food[]> => {
-  const response = await fetch("/api/products");
-  if (!response.ok) {
-    throw new Error("Falha ao buscar produtos");
-  }
-  const data = await response.json();
-  return data.products;
+const fetchProduct = async (id: string): Promise<Food> => {
+  const res = await fetch(`/api/products/${id}`);
+  if (!res.ok) throw new Error("Produto não encontrado");
+  return res.json();
 };
+
+function RatingStars({ rating }: { rating: number }) {
+  return (
+    <div className="flex items-center gap-1">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Star
+          key={i}
+          className={`h-5 w-5 ${i < Math.round(rating) ? "fill-yellow-400 text-yellow-400" : "text-gray-200"}`}
+        />
+      ))}
+      <span className="text-gray-500 ml-1 text-sm">{rating.toFixed(1)}</span>
+    </div>
+  );
+}
+
+function DetailSkeleton() {
+  return (
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center animate-pulse">
+        <div className="w-full aspect-square rounded-xl bg-gray-200" />
+        <div className="space-y-4">
+          <div className="h-8 bg-gray-200 rounded w-3/4" />
+          <div className="h-4 bg-gray-100 rounded w-full" />
+          <div className="h-4 bg-gray-100 rounded w-5/6" />
+          <div className="h-8 bg-gray-200 rounded w-1/3 mt-4" />
+          <div className="h-12 bg-gray-200 rounded w-full mt-6" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function FoodDetailClient({ id }: { id: string }) {
   const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore((state) => state.addItem);
 
-  const { data: food, isLoading, isError } = useQuery<Food[], Error, Food | undefined>({
-    queryKey: ['products'],
-    queryFn: fetchProducts, // 2. Adicionar a queryFn
-    select: (allProducts) => allProducts.find((p: Food) => p.id === id),
+  const { data: food, isLoading, isError } = useQuery<Food>({
+    queryKey: ["product", id],
+    queryFn: () => fetchProduct(id),
   });
 
-  // Se a query está carregando (pouco provável, pois deve usar o cache)
-  if (isLoading) {
-    return <div className="container mx-auto text-center py-12">Carregando...</div>;
-  }
-
-  // Se deu erro ou se o select não encontrou o produto
-  if (isError || !food) {
-    // notFound() só funciona em componentes de servidor, então mostramos uma mensagem
-    // ou redirecionamos. Por agora, uma mensagem.
-    return notFound();
-  }
+  if (isLoading) return <DetailSkeleton />;
+  if (isError || !food) return notFound();
 
   const handleAddToCart = () => {
     addItem(food, quantity);
     toast.success(`${food.name} foi adicionado ao carrinho!`);
   };
 
-  const handleIncrease = () => setQuantity((prev) => prev + 1);
-  const handleDecrease = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <div className="flex justify-center">
+        <div className="relative w-full aspect-square rounded-2xl overflow-hidden shadow-lg bg-gray-50">
           <Image
             src={food.imageUrl}
             alt={food.name}
-            width={400}
-            height={400}
-            className="rounded-lg shadow-lg"
+            fill
+            className="object-cover"
           />
         </div>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4">
           <div>
             <h1 className="text-4xl font-bold mb-2">{food.name}</h1>
-            <p className="text-lg text-gray-600 mb-4">{food.bigDescription}</p> {/* Adicionado mb-4 */}
-            {/* Preço adicionado aqui */}
-            <p className="text-3xl font-bold text-red-600">
-              {new Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-              }).format(food.price)}
+            <RatingStars rating={food.rating} />
+            <p className="text-gray-600 mt-4 leading-relaxed">{food.bigDescription}</p>
+            <p className="text-3xl font-bold text-red-600 mt-4">
+              {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(food.price)}
             </p>
           </div>
-          
-          {/* Lógica de adicionar ao carrinho */}
-          <div className="flex flex-col gap-4 mt-6"> {/* Adicionado mt-6 */}
+
+          <div className="flex flex-col gap-4 mt-2">
             <div className="flex items-center gap-4">
-              <Button onClick={handleDecrease} size="icon">
+              <Button onClick={() => setQuantity((q) => (q > 1 ? q - 1 : 1))} size="icon" variant="outline">
                 <Minus className="h-4 w-4" />
               </Button>
-              <span className="text-xl font-bold">{quantity}</span>
-              <Button onClick={handleIncrease} size="icon">
+              <span className="text-xl font-bold w-6 text-center">{quantity}</span>
+              <Button onClick={() => setQuantity((q) => q + 1)} size="icon" variant="outline">
                 <Plus className="h-4 w-4" />
               </Button>
             </div>
-            <Button onClick={handleAddToCart} size="lg">
+            <Button
+              onClick={handleAddToCart}
+              size="lg"
+              className="bg-[#ED3237] hover:bg-red-700 text-white font-semibold"
+            >
               Adicionar ao Carrinho
             </Button>
           </div>

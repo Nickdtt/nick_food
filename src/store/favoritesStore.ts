@@ -1,56 +1,49 @@
 import { create } from 'zustand';
-import { persist, PersistOptions } from 'zustand/middleware';
 
 type FavoritesState = {
   favoriteIds: Set<string>;
   toggleFavorite: (productId: string) => void;
+  hydrate: () => void;
 };
 
-// A configuração de persistência, agora mais explícita
-const persistOptions: PersistOptions<FavoritesState> = {
-  name: 'favorites-storage',
-  storage: {
-    getItem: (name) => {
-      const str = localStorage.getItem(name);
-      if (!str) return null;
-      const { state } = JSON.parse(str);
-      return {
-        state: {
-          ...state,
-          favoriteIds: new Set(state.favoriteIds),
-        },
-        version: 0, // Adicionando a versão para conformidade
-      };
-    },
-    setItem: (name, newValue) => {
-      // Convertendo o Set para um Array para salvar
-      const str = JSON.stringify({
-        state: {
-          ...newValue.state,
-          favoriteIds: Array.from(newValue.state.favoriteIds),
-        },
-      });
-      localStorage.setItem(name, str);
-    },
-    removeItem: (name) => localStorage.removeItem(name),
+const STORAGE_KEY = 'favorites-storage';
+
+function readStorage(): Set<string> {
+  if (typeof window === 'undefined') return new Set();
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return new Set();
+    const ids: unknown = JSON.parse(raw);
+    return new Set(Array.isArray(ids) ? (ids as string[]) : []);
+  } catch {
+    return new Set();
+  }
+}
+
+function writeStorage(ids: Set<string>): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(ids)));
+  } catch {
+    // silently fail
+  }
+}
+
+export const useFavoritesStore = create<FavoritesState>((set, get) => ({
+  favoriteIds: new Set<string>(),
+
+  hydrate: () => {
+    set({ favoriteIds: readStorage() });
   },
-};
 
-export const useFavoritesStore = create<FavoritesState>()(
-  persist(
-    (set) => ({
-      favoriteIds: new Set(),
-      toggleFavorite: (productId) =>
-        set((state) => {
-          const newFavoriteIds = new Set(state.favoriteIds);
-          if (newFavoriteIds.has(productId)) {
-            newFavoriteIds.delete(productId);
-          } else {
-            newFavoriteIds.add(productId);
-          }
-          return { favoriteIds: newFavoriteIds };
-        }),
-    }),
-    persistOptions
-  )
-);
+  toggleFavorite: (productId: string) => {
+    const next = new Set(get().favoriteIds);
+    if (next.has(productId)) {
+      next.delete(productId);
+    } else {
+      next.add(productId);
+    }
+    set({ favoriteIds: next });
+    writeStorage(next);
+  },
+}));
