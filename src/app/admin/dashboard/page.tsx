@@ -12,14 +12,14 @@ type Order = {
 };
 
 const fetchProducts = async (): Promise<Food[]> => {
-  const res = await fetch("/api/products");
+  const res = await fetch("/nickfood/api/products");
   if (!res.ok) throw new Error("Falha ao carregar produtos");
   const data = await res.json();
   return data.products;
 };
 
 const fetchOrders = async (): Promise<Order[]> => {
-  const res = await fetch("/api/orders");
+  const res = await fetch("/nickfood/api/orders");
   if (!res.ok) throw new Error("Falha ao carregar pedidos");
   const data = await res.json();
   return data.orders;

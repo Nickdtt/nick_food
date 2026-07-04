@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NickFood",
-  description: "Seu delivery favorito",
+  title: "NickFood — Peça sua comida favorita",
+  description: "Cardápio, busca, favoritos e carrinho. Peça seu delivery favorito em poucos toques.",
 };
 
 export default async function RootLayout({
@@ -30,7 +30,7 @@ export default async function RootLayout({
   const session = await auth();
 
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex justify-center md:w-full pb-20`}
       >

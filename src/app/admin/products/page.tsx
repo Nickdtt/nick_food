@@ -12,7 +12,7 @@ import Image from "next/image"; // 1. Importar o componente Image
 type ProductFormData = Omit<Food, "id" | "rating" | "favorite" | "createdAt" | "updatedAt">;
 
 const fetchProducts = async (): Promise<Food[]> => {
-  const response = await fetch("/api/products");
+  const response = await fetch("/nickfood/api/products");
   if (!response.ok) {
     throw new Error("Falha ao buscar produtos");
   }
@@ -21,7 +21,7 @@ const fetchProducts = async (): Promise<Food[]> => {
 };
 
 const createProduct = async (newProduct: ProductFormData): Promise<Food> => {
-  const response = await fetch('/api/products', {
+  const response = await fetch('/nickfood/api/products', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(newProduct),
@@ -31,7 +31,7 @@ const createProduct = async (newProduct: ProductFormData): Promise<Food> => {
 };
 
 const updateProduct = async ({ id, data }: { id: string; data: ProductFormData }): Promise<Food> => {
-  const response = await fetch(`/api/products/${id}`, {
+  const response = await fetch(`/nickfood/api/products/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -41,7 +41,7 @@ const updateProduct = async ({ id, data }: { id: string; data: ProductFormData }
 };
 
 const deleteProduct = async (productId: string): Promise<void> => {
-  const response = await fetch(`/api/products/${productId}`, { method: 'DELETE' });
+  const response = await fetch(`/nickfood/api/products/${productId}`, { method: 'DELETE' });
   if (!response.ok) throw new Error('Falha ao excluir produto');
 };
 

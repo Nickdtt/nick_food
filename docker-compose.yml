@@ -1,14 +1,26 @@
 services:
-  app:
-    build: .
-    ports:
-      - "3000:3000"
+  nickfood:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nickfood-app
     environment:
       DATABASE_URL: "file:./data/dev.db"
-      AUTH_SECRET: "${AUTH_SECRET:-troque-por-uma-chave-secreta-segura-em-producao}"
+      NODE_ENV: production
+      AUTH_TRUST_HOST: "true"
+      NEXTAUTH_URL: "http://147.15.105.72/nickfood"
+      AUTH_SECRET: "${AUTH_SECRET:-portfolio-demo-secret-key-2026}"
     volumes:
       - app-data:/app/data
-    working_dir: /app
+    restart: unless-stopped
+    networks:
+      - default
+      - portfolio-net
 
 volumes:
   app-data:
+
+networks:
+  default:
+  portfolio-net:
+    external: true

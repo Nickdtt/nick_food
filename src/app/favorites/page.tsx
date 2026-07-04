@@ -7,7 +7,7 @@ import { Food } from "../types";
 import Link from "next/link";
 
 const fetchFoods = async (): Promise<Food[]> => {
-  const res = await fetch("/api/products");
+  const res = await fetch("/nickfood/api/products");
   if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
   const data = await res.json();
   return data.products;
@@ -48,7 +48,7 @@ export default function FavoritesPage() {
     <div className="container mx-auto px-4 sm:px-6 py-8 max-w-3xl">
       <h1 className="text-3xl font-bold mb-1">Meus Favoritos</h1>
       {favoritedFoods.length > 0 && (
-        <p className="text-gray-400 text-sm mb-6">{favoritedFoods.length} {favoritedFoods.length === 1 ? "item" : "itens"}</p>
+        <p className="text-gray-400 text-sm mb-6 tabular-nums">{favoritedFoods.length} {favoritedFoods.length === 1 ? "item" : "itens"}</p>
       )}
 
       {favoritedFoods.length === 0 ? (

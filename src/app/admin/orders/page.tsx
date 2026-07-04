@@ -41,14 +41,14 @@ const NEXT_STATUS: Record<string, string | null> = {
 };
 
 const fetchOrders = async (): Promise<Order[]> => {
-  const res = await fetch("/api/orders");
+  const res = await fetch("/nickfood/api/orders");
   if (!res.ok) throw new Error("Falha ao buscar pedidos");
   const data = await res.json();
   return data.orders;
 };
 
 const updateOrderStatus = async ({ id, status }: { id: string; status: string }) => {
-  const res = await fetch(`/api/orders/${id}`, {
+  const res = await fetch(`/nickfood/api/orders/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ status }),

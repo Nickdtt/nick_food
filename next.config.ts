@@ -7,6 +7,8 @@ if (typeof window === 'undefined' && typeof globalThis.localStorage !== 'undefin
 }
 
 const nextConfig: NextConfig = {
+  basePath: '/nickfood',
+  assetPrefix: '/nickfood',
   output: 'standalone', // Adicionar esta linha
   images: {
     unoptimized: true, // Adicionar esta linha para desativar a otimização

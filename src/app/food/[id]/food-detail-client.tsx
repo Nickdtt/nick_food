@@ -11,7 +11,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 const fetchProduct = async (id: string): Promise<Food> => {
-  const res = await fetch(`/api/products/${id}`);
+  const res = await fetch(`/nickfood/api/products/${id}`);
   if (!res.ok) throw new Error("Produto não encontrado");
   return res.json();
 };

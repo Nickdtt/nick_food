@@ -14,7 +14,7 @@ export default function NavBottom() {
 
     const linkClass = (href: string) => {
         const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
-        return `relative rounded-full h-12 w-12 flex items-center justify-center transition-colors duration-200 ${
+        return `relative rounded-full size-12 flex items-center justify-center transition-colors duration-200 ${
             isActive
                 ? "bg-white text-red-500"
                 : "text-white hover:bg-red-600"
@@ -22,22 +22,25 @@ export default function NavBottom() {
     };
 
     return (
-        <nav className="fixed bottom-0 w-full max-w-screen-md mx-auto bg-red-500 text-white h-20 rounded-t-3xl flex justify-evenly items-center p-4 shadow-lg z-50">
-            <Link href="/" className={linkClass("/")}>
-                <Home className="h-7 w-7" />
+        <nav
+            className="fixed bottom-0 w-full max-w-screen-md mx-auto bg-red-500 text-white rounded-t-3xl flex justify-evenly items-center px-4 pt-4 shadow-lg z-50"
+            style={{ paddingBottom: "calc(1rem + env(safe-area-inset-bottom))" }}
+        >
+            <Link href="/" aria-label="Início" aria-current={pathname === "/" ? "page" : undefined} className={linkClass("/")}>
+                <Home className="size-7" />
             </Link>
-            <Link href="/favorites" className={linkClass("/favorites")}>
-                <Heart className="h-7 w-7" />
+            <Link href="/favorites" aria-label={`Favoritos${favCount > 0 ? ` (${favCount})` : ""}`} aria-current={pathname.startsWith("/favorites") ? "page" : undefined} className={linkClass("/favorites")}>
+                <Heart className="size-7" />
                 {favCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-white text-red-500 text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center border border-red-200">
+                    <span className="absolute -top-1 -right-1 bg-white text-red-500 text-[10px] font-bold tabular-nums rounded-full size-5 flex items-center justify-center border border-red-200">
                         {favCount > 99 ? "99+" : favCount}
                     </span>
                 )}
             </Link>
-            <Link href="/cart" className={linkClass("/cart")}>
-                <ShoppingCart className="h-7 w-7" />
+            <Link href="/cart" aria-label={`Carrinho${totalItems > 0 ? ` (${totalItems})` : ""}`} aria-current={pathname.startsWith("/cart") ? "page" : undefined} className={linkClass("/cart")}>
+                <ShoppingCart className="size-7" />
                 {totalItems > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-white text-red-500 text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center border border-red-200">
+                    <span className="absolute -top-1 -right-1 bg-white text-red-500 text-[10px] font-bold tabular-nums rounded-full size-5 flex items-center justify-center border border-red-200">
                         {totalItems > 99 ? "99+" : totalItems}
                     </span>
                 )}

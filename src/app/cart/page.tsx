@@ -34,29 +34,29 @@ export default function CartPage() {
             <div className="flex items-center gap-4">
               <Image src={item.imageUrl} alt={item.name} width={80} height={80} className="rounded-md" />
               <div>
-                <h2 className="font-semibold text-lg">{item.name}</h2>
-                <p className="text-gray-500">R$ {item.price.toFixed(2)}</p>
+                <h2 className="font-semibold text-lg text-balance">{item.name}</h2>
+                <p className="text-gray-500 tabular-nums">R$ {item.price.toFixed(2)}</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
-                <Button onClick={() => decreaseQuantity(item.id)} size="icon" variant="ghost">
-                  <Minus className="h-4 w-4" />
+                <Button onClick={() => decreaseQuantity(item.id)} size="icon" variant="ghost" aria-label={`Diminuir quantidade de ${item.name}`}>
+                  <Minus className="size-4" />
                 </Button>
-                <span className="font-bold">{item.quantity}</span>
-                <Button onClick={() => increaseQuantity(item.id)} size="icon" variant="ghost">
-                  <Plus className="h-4 w-4" />
+                <span className="font-bold tabular-nums" aria-label={`Quantidade: ${item.quantity}`}>{item.quantity}</span>
+                <Button onClick={() => increaseQuantity(item.id)} size="icon" variant="ghost" aria-label={`Aumentar quantidade de ${item.name}`}>
+                  <Plus className="size-4" />
                 </Button>
               </div>
-              <Button onClick={() => removeItem(item.id)} size="icon" variant="destructive">
-                <Trash2 className="h-4 w-4" />
+              <Button onClick={() => removeItem(item.id)} size="icon" variant="destructive" aria-label={`Remover ${item.name} do carrinho`}>
+                <Trash2 className="size-4" />
               </Button>
             </div>
           </div>
         ))}
       </div>
       <div className="mt-8 flex justify-end">
-        <div className="text-2xl font-bold">
+        <div className="text-2xl font-bold tabular-nums">
           Total: R$ {total.toFixed(2)}
         </div>
       </div>

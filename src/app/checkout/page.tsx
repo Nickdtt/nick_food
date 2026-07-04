@@ -31,7 +31,7 @@ export default function CheckoutPage() {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("/api/orders", {
+      const res = await fetch("/nickfood/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -98,8 +98,8 @@ export default function CheckoutPage() {
         <div className="space-y-2">
           {items.map((item) => (
             <div key={item.id} className="flex justify-between text-sm text-gray-600">
-              <span>{item.name} × {item.quantity}</span>
-              <span>
+              <span className="text-pretty">{item.name} <span className="tabular-nums">× {item.quantity}</span></span>
+              <span className="tabular-nums">
                 {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(item.price * item.quantity)}
               </span>
             </div>
@@ -107,7 +107,7 @@ export default function CheckoutPage() {
         </div>
         <div className="border-t mt-3 pt-3 flex justify-between font-bold">
           <span>Total</span>
-          <span>{new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(total)}</span>
+          <span className="tabular-nums">{new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(total)}</span>
         </div>
       </div>
 

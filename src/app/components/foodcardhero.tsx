@@ -8,9 +8,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Food } from "../types";
 import { useState, useMemo } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const fetchFoods = async (): Promise<Food[]> => {
-  const response = await fetch("/api/products");
+  const response = await fetch("/nickfood/api/products");
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
@@ -54,18 +55,28 @@ export function FoodCardHero() {
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
+              aria-label="Limpar busca"
               className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
-              <X className="h-4 w-4" />
+              <X className="size-4" />
             </button>
           )}
         </div>
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6" aria-busy="true" aria-label="Carregando produtos">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="rounded-2xl bg-gray-100 animate-pulse h-56" />
+            <div key={i} className="bg-white shadow-lg rounded-2xl p-4">
+              <Skeleton className="w-full aspect-square mb-4 rounded-xl" />
+              <Skeleton className="h-5 w-3/4 mb-2" />
+              <Skeleton className="h-4 w-full mb-1" />
+              <Skeleton className="h-4 w-2/3 mb-3" />
+              <div className="flex items-center justify-between mt-3">
+                <Skeleton className="h-6 w-20" />
+                <Skeleton className="size-10 rounded-full" />
+              </div>
+            </div>
           ))}
         </div>
       ) : isError ? (

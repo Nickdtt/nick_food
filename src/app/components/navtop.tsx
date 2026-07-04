@@ -8,7 +8,7 @@ export function NavTop() {
         <p className="text-md text-gray-500">Peça sua comida favorita!</p>
       </div>
       <Avatar className="w-14 h-14">
-        <AvatarImage src="/nick.JPG" alt="Nick" />
+        <AvatarImage src="/nickfood/nick.JPG" alt="Nick" />
         <AvatarFallback>NF</AvatarFallback>
       </Avatar>
     </div>
