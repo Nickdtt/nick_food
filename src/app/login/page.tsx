@@ -3,11 +3,13 @@
 import { useState } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { Eye, EyeOff, Utensils } from "lucide-react" // Ícones para um toque visual
+import Link from "next/link"
+import { Eye, EyeOff, Utensils, ArrowLeft } from "lucide-react" // Ícones para um toque visual
+import { DEMO_CREDENTIALS } from "@/lib/brand"
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState<string>(DEMO_CREDENTIALS.email)
+  const [password, setPassword] = useState<string>(DEMO_CREDENTIALS.password)
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -37,7 +39,15 @@ const LoginPage = () => {
   return (
     <div className="bg-gray-50 min-h-screen flex items-center justify-center p-4 w-full ">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-        
+
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 mb-4"
+        >
+          <ArrowLeft size={16} />
+          Voltar para a loja
+        </Link>
+
         <div className="flex justify-center mb-6">
           <div className="p-3 bg-red-100 rounded-full">
             <Utensils className="w-8 h-8 text-red-600" />
@@ -50,6 +60,16 @@ const LoginPage = () => {
         <p className="text-center text-gray-500 mb-8">
           Acesse para gerenciar seu estabelecimento.
         </p>
+
+        <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          <p className="font-semibold">🔓 Conta de demonstração</p>
+          <p className="mt-1">
+            E-mail <code className="font-mono">{DEMO_CREDENTIALS.email}</code>
+            {" · "}
+            Senha <code className="font-mono">{DEMO_CREDENTIALS.password}</code>
+          </p>
+          <p className="mt-1 text-amber-700">Já preenchido — é só entrar.</p>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>

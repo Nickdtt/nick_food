@@ -77,7 +77,7 @@ export function FoodDetailClient({ id }: { id: string }) {
         </div>
         <div className="flex flex-col gap-4">
           <div>
-            <h1 className="text-4xl font-bold mb-2">{food.name}</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold mb-2 text-balance">{food.name}</h1>
             <RatingStars rating={food.rating} />
             <p className="text-gray-600 mt-4 leading-relaxed">{food.bigDescription}</p>
             <p className="text-3xl font-bold text-red-600 mt-4">
@@ -98,7 +98,7 @@ export function FoodDetailClient({ id }: { id: string }) {
             <Button
               onClick={handleAddToCart}
               size="lg"
-              className="bg-[#ED3237] hover:bg-red-700 text-white font-semibold"
+              className="bg-[#ED3237] hover:bg-red-700 active:scale-[0.98] transition-transform text-white font-semibold"
             >
               Adicionar ao Carrinho
             </Button>

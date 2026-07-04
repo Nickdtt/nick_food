@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, ArrowLeft } from "lucide-react";
+import { toast } from "sonner";
 
 type CheckoutForm = {
   customerName: string;
@@ -53,7 +54,7 @@ export default function CheckoutPage() {
       clearCart();
       setIsSuccess(true);
     } catch {
-      alert("Erro ao finalizar pedido. Tente novamente.");
+      toast.error("Erro ao finalizar pedido. Tente novamente.");
     } finally {
       setIsSubmitting(false);
     }
@@ -72,8 +73,8 @@ export default function CheckoutPage() {
 
   if (isSuccess) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center">
-        <CheckCircle className="h-20 w-20 text-green-500 mb-6" />
+      <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center motion-safe:animate-in motion-safe:fade-in motion-safe:zoom-in-95">
+        <CheckCircle className="h-20 w-20 text-green-500 mb-6 motion-safe:animate-in motion-safe:zoom-in-50 motion-safe:duration-500" />
         <h1 className="text-3xl font-bold mb-2">Pedido realizado!</h1>
         <p className="text-gray-500 mb-8">Obrigado! Seu pedido foi recebido e está sendo preparado.</p>
         <Button onClick={() => router.push("/")} className="bg-red-500 text-white hover:bg-red-600">
@@ -118,6 +119,7 @@ export default function CheckoutPage() {
           <input
             type="text"
             name="customerName"
+            autoComplete="name"
             value={form.customerName}
             onChange={handleChange}
             required
@@ -130,6 +132,7 @@ export default function CheckoutPage() {
           <input
             type="text"
             name="address"
+            autoComplete="street-address"
             value={form.address}
             onChange={handleChange}
             required
@@ -141,6 +144,8 @@ export default function CheckoutPage() {
           <label className="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
           <input
             type="tel"
+            inputMode="tel"
+            autoComplete="tel"
             name="phone"
             value={form.phone}
             onChange={handleChange}

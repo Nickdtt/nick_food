@@ -34,7 +34,7 @@ export function FoodCard({ food }: { food: Food }) {
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-2xl p-4 transition-transform duration-200 ease-out hover:scale-[1.03]">
+    <div className="bg-white shadow-lg rounded-2xl p-4 transition-transform duration-200 ease-out hover:scale-[1.03] active:scale-[0.98] motion-safe:animate-in motion-safe:fade-in motion-safe:zoom-in-95">
       <Link href={`/food/${food.id}`}>
         <div className="relative w-full aspect-square mb-4 rounded-xl overflow-hidden bg-gray-50">
           {imgError ? (
@@ -68,7 +68,7 @@ export function FoodCard({ food }: { food: Food }) {
           className="size-10 rounded-full hover:bg-red-100"
         >
           <Heart
-            className={`size-6 transition-colors ${isFavorite ? "fill-[#ED3237] text-[#ED3237]" : "text-gray-400"}`}
+            className={`size-6 transition-all duration-200 ${isFavorite ? "fill-[#ED3237] text-[#ED3237] scale-110" : "text-gray-400"}`}
           />
         </Button>
       </div>

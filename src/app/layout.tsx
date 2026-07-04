@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import Providers from "./providers";
 import { ClientShell } from "./components/client-shell";
+import { BRAND_NAME, BRAND_TAGLINE, BRAND_DESCRIPTION } from "@/lib/brand";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,8 +19,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NickFood — Peça sua comida favorita",
-  description: "Cardápio, busca, favoritos e carrinho. Peça seu delivery favorito em poucos toques.",
+  title: `${BRAND_NAME} — ${BRAND_TAGLINE}`,
+  description: BRAND_DESCRIPTION,
 };
 
 export default async function RootLayout({

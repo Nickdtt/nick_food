@@ -7,6 +7,7 @@ import {
   Package,
   ShoppingBag,
   LogOut,
+  Store,
   X, // 1. Importar ícone de fechar
 } from "lucide-react";
 import { signOut } from "next-auth/react";
@@ -79,7 +80,15 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
             ))}
           </ul>
         </nav>
-        <div className="mt-auto pt-4 border-t border-gray-200">
+        <div className="mt-auto pt-4 border-t border-gray-200 space-y-1">
+          <Link
+            href="/"
+            onClick={handleLinkClick}
+            className="flex items-center p-2 rounded-lg transition-colors duration-200 hover:bg-red-50 text-gray-700 w-full text-left"
+          >
+            <Store className="h-5 w-5 mr-3" />
+            Ver loja
+          </Link>
           <button
             onClick={() => signOut({ callbackUrl: "/login" })}
             className="flex items-center p-2 rounded-lg transition-colors duration-200 hover:bg-red-50 text-gray-700 w-full text-left"
