@@ -8,7 +8,7 @@ services:
       DATABASE_URL: "file:./data/dev.db"
       NODE_ENV: production
       AUTH_TRUST_HOST: "true"
-      NEXTAUTH_URL: "http://147.15.105.72/nickfood"
+      NEXTAUTH_URL: "https://nicolasfigueiredo.com/nickfood"
       AUTH_SECRET: "${AUTH_SECRET:-portfolio-demo-secret-key-2026}"
     volumes:
       - app-data:/app/data
