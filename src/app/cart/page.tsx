@@ -26,43 +26,81 @@ export default function CartPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-40">
       <h1 className="text-3xl font-bold mb-8">Seu Carrinho</h1>
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4">
         {items.map((item) => (
-          <div key={item.id} className="flex items-center justify-between p-4 bg-white shadow-md rounded-lg">
+          <div
+            key={item.id}
+            className="p-4 bg-white shadow-md rounded-2xl motion-safe:animate-in motion-safe:fade-in"
+          >
+            {/* Linha 1: imagem + nome + preço */}
             <div className="flex items-center gap-4">
-              <Image src={item.imageUrl} alt={item.name} width={80} height={80} className="rounded-md" />
-              <div>
-                <h2 className="font-semibold text-lg text-balance">{item.name}</h2>
-                <p className="text-gray-500 tabular-nums">R$ {item.price.toFixed(2)}</p>
+              <Image
+                src={item.imageUrl}
+                alt={item.name}
+                width={72}
+                height={72}
+                className="rounded-xl shrink-0 size-[72px] object-cover bg-gray-50"
+              />
+              <div className="min-w-0 flex-1">
+                <h2 className="font-semibold text-base leading-tight text-balance">{item.name}</h2>
+                <p className="text-gray-500 tabular-nums text-sm mt-0.5">R$ {item.price.toFixed(2)}</p>
               </div>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <Button onClick={() => decreaseQuantity(item.id)} size="icon" variant="ghost" aria-label={`Diminuir quantidade de ${item.name}`}>
+            {/* Linha 2: controles de quantidade + remover (não competem com o nome) */}
+            <div className="flex items-center justify-between mt-3">
+              <div className="flex items-center gap-1 rounded-full bg-gray-100 p-1">
+                <Button
+                  onClick={() => decreaseQuantity(item.id)}
+                  size="icon"
+                  variant="ghost"
+                  className="rounded-full active:scale-90 transition-transform"
+                  aria-label={`Diminuir quantidade de ${item.name}`}
+                >
                   <Minus className="size-4" />
                 </Button>
-                <span className="font-bold tabular-nums" aria-label={`Quantidade: ${item.quantity}`}>{item.quantity}</span>
-                <Button onClick={() => increaseQuantity(item.id)} size="icon" variant="ghost" aria-label={`Aumentar quantidade de ${item.name}`}>
+                <span className="font-bold tabular-nums w-8 text-center" aria-label={`Quantidade: ${item.quantity}`}>
+                  {item.quantity}
+                </span>
+                <Button
+                  onClick={() => increaseQuantity(item.id)}
+                  size="icon"
+                  variant="ghost"
+                  className="rounded-full active:scale-90 transition-transform"
+                  aria-label={`Aumentar quantidade de ${item.name}`}
+                >
                   <Plus className="size-4" />
                 </Button>
               </div>
-              <Button onClick={() => removeItem(item.id)} size="icon" variant="destructive" aria-label={`Remover ${item.name} do carrinho`}>
-                <Trash2 className="size-4" />
+              <Button
+                onClick={() => removeItem(item.id)}
+                size="icon"
+                variant="ghost"
+                className="text-gray-400 hover:text-red-600 active:scale-90 transition-transform"
+                aria-label={`Remover ${item.name} do carrinho`}
+              >
+                <Trash2 className="size-5" />
               </Button>
             </div>
           </div>
         ))}
       </div>
-      <div className="mt-8 flex justify-end">
-        <div className="text-2xl font-bold tabular-nums">
-          Total: R$ {total.toFixed(2)}
+
+      {/* Barra fixa de checkout na thumb zone — CTA largo e alcançável */}
+      <div
+        className="fixed bottom-0 left-0 right-0 z-40 mx-auto w-full max-w-screen-md border-t border-gray-100 bg-white/95 px-4 pt-4 backdrop-blur"
+        style={{ paddingBottom: "calc(1rem + env(safe-area-inset-bottom))" }}
+      >
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-gray-500">Total</span>
+          <span className="text-2xl font-bold tabular-nums">R$ {total.toFixed(2)}</span>
         </div>
-      </div>
-      <div className="mt-8 flex justify-end">
-        <Link href="/checkout">
-          <Button size="lg" className="bg-green-500 text-white hover:bg-green-600">
+        <Link href="/checkout" className="block">
+          <Button
+            size="lg"
+            className="w-full bg-[#ED3237] hover:bg-red-700 active:scale-[0.99] transition-transform text-white text-base font-semibold"
+          >
             Finalizar Compra
           </Button>
         </Link>

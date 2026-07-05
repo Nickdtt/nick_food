@@ -85,7 +85,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-xl">
+    <div className="container mx-auto px-4 py-8 max-w-xl pb-40">
       <Link href="/cart" className="flex items-center gap-1 text-gray-500 hover:text-gray-800 mb-6 w-fit">
         <ArrowLeft className="h-4 w-4" />
         Voltar ao carrinho
@@ -113,7 +113,7 @@ export default function CheckoutPage() {
       </div>
 
       {/* Formulário */}
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form id="checkout-form" onSubmit={handleSubmit} className="space-y-5">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Nome completo</label>
           <input
@@ -155,14 +155,29 @@ export default function CheckoutPage() {
           />
         </div>
 
+      </form>
+
+      {/* Barra fixa de confirmação na thumb zone */}
+      <div
+        className="fixed bottom-0 left-0 right-0 z-40 mx-auto w-full max-w-screen-md border-t border-gray-100 bg-white/95 px-4 pt-4 backdrop-blur"
+        style={{ paddingBottom: "calc(1rem + env(safe-area-inset-bottom))" }}
+      >
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-gray-500">Total</span>
+          <span className="text-xl font-bold tabular-nums">
+            {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(total)}
+          </span>
+        </div>
         <Button
           type="submit"
+          form="checkout-form"
+          size="lg"
           disabled={isSubmitting}
-          className="w-full bg-green-500 hover:bg-green-600 text-white py-3 text-base font-semibold disabled:opacity-60"
+          className="w-full bg-[#ED3237] hover:bg-red-700 active:scale-[0.99] transition-transform text-white text-base font-semibold disabled:opacity-60"
         >
           {isSubmitting ? "Enviando pedido..." : "Confirmar Pedido"}
         </Button>
-      </form>
+      </div>
     </div>
   );
 }

@@ -6,10 +6,12 @@ import NavBottom from "./navbottom";
 export default function NavBottomWrapper() {
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith("/admin");
-  const isLoginPage = pathname === "/login"; // Adicionar esta linha
+  const isLoginPage = pathname === "/login";
+  // Cart e checkout têm sua própria barra de ação fixa (foco na conversão)
+  const hasOwnActionBar = pathname === "/cart" || pathname === "/checkout";
 
-  if (isAdminRoute || isLoginPage) { // Modificar esta linha
-    return null; // Não renderiza a NavBottom em rotas admin ou na página de login
+  if (isAdminRoute || isLoginPage || hasOwnActionBar) {
+    return null; // Não renderiza a NavBottom onde há barra de ação própria
   }
 
   return <NavBottom />;
