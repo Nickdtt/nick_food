@@ -120,3 +120,26 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ── CTA "Testar painel" — anel pulsante que chama atenção ─────── */
+.cta-pulse {
+  position: relative;
+  isolation: isolate;
+}
+.cta-pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 rgb(239 68 68 / 0.55); /* red-500 */
+  z-index: -1;
+  animation: cta-ring 2.2s ease-out infinite;
+}
+@keyframes cta-ring {
+  0%   { box-shadow: 0 0 0 0 rgb(239 68 68 / 0.55); }
+  70%  { box-shadow: 0 0 0 12px rgb(239 68 68 / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(239 68 68 / 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta-pulse::after { animation: none; }
+}
