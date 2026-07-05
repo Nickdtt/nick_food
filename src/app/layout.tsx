@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import Providers from "./providers";
 import { ClientShell } from "./components/client-shell";
+import { BackToPortfolio } from "./components/back-to-portfolio";
 import { BRAND_NAME, BRAND_TAGLINE, BRAND_DESCRIPTION } from "@/lib/brand";
 
 const geistSans = Geist({
@@ -37,6 +38,7 @@ export default async function RootLayout({
       >
         <Providers>
           <SessionProvider session={session}>
+            <BackToPortfolio />
             <ClientShell>
               {children}
             </ClientShell>
